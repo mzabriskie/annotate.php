@@ -3,36 +3,38 @@ php-annotate
 
 Annotations for PHP
 
-	<?php
-	
-	require_once('Annotate.php');
+```php
+<?php
 
-	/**
-	 * @AnnotationTarget(AnnotatedElementType::TYPE)
-	 */
-	class ExampleTypeAnnotation extends Annotation {}
+require_once('Annotate.php');
 
-	/**
-	 * @AnnotationTarget(AnnotatedElementType::METHOD)
-	 */
-	class ExampleMethodAnnotation extends Annotation {}
+/**
+ * @AnnotationTarget(AnnotatedElementType::TYPE)
+ */
+class ExampleTypeAnnotation extends Annotation {}
 
-	/**
-	 * @ExampleTypeAnnotation
-	 */
-	class ExampleClass {
-		/**
-		 * @ExampleMethodAnnotation('bar')
-		 */
-		function foo() {}
-	}
+/**
+ * @AnnotationTarget(AnnotatedElementType::METHOD)
+ */
+class ExampleMethodAnnotation extends Annotation {}
 
-	$reflectionClass = new AnnotatedReflectionClass('ExampleClass');
-	if ($reflectionClass->hasAnnotation('ExampleTypeAnnotation')) {
-		echo 'ExampleClass has ExampleTypeAnnotation present' . "\n";
-	}
+/**
+ * @ExampleTypeAnnotation
+ */
+class ExampleClass {
+    /**
+     * @ExampleMethodAnnotation('bar')
+     */
+    function foo() {}
+}
 
-	$reflectionMethod = $reflectionClass->getMethod('foo');
-	if ($reflectionMethod->hasAnnotation('ExampleMethodAnnotation')) {
-		echo 'ExampleClass::foo has ExampleMethodAnnotation present with value of "' . $reflectionMethod->getAnnotation('ExampleMethodAnnotation')->value() . '"' . "\n";
-	}
+$reflectionClass = new AnnotatedReflectionClass('ExampleClass');
+if ($reflectionClass->hasAnnotation('ExampleTypeAnnotation')) {
+    echo 'ExampleClass has ExampleTypeAnnotation present' . "\n";
+}
+
+$reflectionMethod = $reflectionClass->getMethod('foo');
+if ($reflectionMethod->hasAnnotation('ExampleMethodAnnotation')) {
+    echo 'ExampleClass::foo has ExampleMethodAnnotation present with value of "' . $reflectionMethod->getAnnotation('ExampleMethodAnnotation')->value() . '"' . "\n";
+}
+```
