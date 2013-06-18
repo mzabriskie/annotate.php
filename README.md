@@ -20,7 +20,7 @@ require_once('Annotate.php');
 class Route extends Annotation {}
 ```
 
-Using the annotation above we can now define a class and apply the annotation.
+Using the annotation above we can now define a controller and apply the annotation.
 
 ```php
 <?php
@@ -64,7 +64,7 @@ class RequestRouter {
 }
 ```
 
-This is obviously a rudimentary example from the perspective of our <code>RequestRouter</code>, but it shows how the <code>Route</code> annotation can be put to use.
+This is obviously a rudimentary example from the perspective of our <code>RequestRouter</code>, but it shows how the <code>@Route</code> annotation can be put to use.
 
 #### Annotations with multiple values
 
@@ -96,7 +96,7 @@ class Route extends Annotation {
     }
 }
 ```
-Now our <code>Route</code> will allow us to specify a path as well as a request method.
+Now our <code>@Route</code> will allow us to specify a path as well as a request method.
 
 ```php
 <?php
@@ -139,8 +139,9 @@ class Controller {
 	function home() {}
 	
 	/**
-	 * This route ignores the url parameter so we have to specify that the
+	 * This route ignores the path parameter so we have to specify that the
 	 * parameter we are passing is meant to be used as the method value.
+	 * This is obviously pointless, but for the sake of example...
 	 * @Route(method='GET')
 	 */
 	function bar() {}
