@@ -5,9 +5,9 @@ This project provides Java style annotations for PHP.
 
 ## Example
 
-#### Defining an annotation
-
 Let's assume we're writing a web request router. We could use annotations to supply the routes and which method is associated.
+
+#### Defining an annotation
 
 ```php
 <?php
