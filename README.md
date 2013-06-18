@@ -1,9 +1,9 @@
 php-annotate
 ============
 
-Annotations for PHP
-
 This project provides Java style annotations for PHP.
+
+## Example
 
 #### Defining an annotation
 
@@ -57,6 +57,7 @@ class RequestRouter {
             $route = $method->getAnnotation('Route');
             if ($route->value() == $path) {
                 $method->invoke($obj);
+                break;
             }
         }
 	}
@@ -119,7 +120,7 @@ class Controller {
 	function loginAuth() {}
 }
 ```
-Now our <em>home</em> and <em>login</em> controller methods indicate that they support a GET request method, while <em>loginAuth</em> supports POST. We would obviously need to update our <code>RequestRouter</code> accordingly.
+Now our <em>home</em> and <em>login</em> controller methods indicate that they support a <em>GET</em> request method, while <em>loginAuth</em> supports <em>POST</em>. We would obviously need to update our <code>RequestRouter</code> accordingly.
 
 #### Named parameters
 
@@ -132,23 +133,56 @@ require_once('Annotate.php');
 
 class Controller {
 	/**
-	 * This route ignores the <em>method</em> parameter
+	 * This route ignores the method parameter
 	 * @Route('/foo')
 	 */
 	function home() {}
 	
 	/**
-	 * This route ignores the <em>url</em> parameter so we have to specify that the
-	 * parameter we are passing is meant to be used as the <em>method</em> value.
+	 * This route ignores the url parameter so we have to specify that the
+	 * parameter we are passing is meant to be used as the method value.
 	 * @Route(method='GET')
 	 */
 	function bar() {}
 }
 ```
+## API Documentation
+
+#### AnnotatedReflectionClass
+
+This class extends [ReflectionClass](http://php.net/manual/en/class.reflectionclass.php) and introduces the following methods:
+
+- getAnnotations
+- getAnnotation($annotationClass)
+- hasAnnotation($annotationClass)
+
+#### AnnotatedReflectionMethod
+
+This class extends [ReflectionMethod](http://www.php.net/manual/en/class.reflectionmethod.php) and introduces the following methods:
+
+- getAnnotations
+- getAnnotation($annotationClass)
+- hasAnnotation($annotationClass)
+
+#### AnnotatedReflectionProperty
+
+This class extends [ReflectionProperty](http://www.php.net/manual/en/class.reflectionproperty.php) and introduces the following methods:
+
+- getAnnotations
+- getAnnotation($annotationClass)
+- hasAnnotation($annotationClass)
+
+#### Annotation
+
+You must extend this class anytime you define your own custom annotation.
 
 #### @AnnotationTarget
 
-You can specify a target to annotation classes and limit what element type they pertain to. The value of the <code>AnnotationTarget</code> is one of the values from <code>AnnotatedElementType</code>.
+This supplied annotation is used to specify the target of annotations. It takes one of the values from <code>AnnotatedElementType</code> as it's <em>value</em>.
+
+#### AnnotatedElementType
+
+You can specify a target to annotation classes and limit what element type they pertain to. The value of the <code>AnnotationTarget</code> is one of these values:
 
 - ANNOTATION_TYPE - Annotation type declaration
 - CONSTRUCTOR - Constructor declaration
