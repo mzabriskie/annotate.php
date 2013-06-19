@@ -23,6 +23,11 @@ class AnnotateTestPropertyAnnotation extends Annotation {}
 class AnnotateTestTypeAnnotation extends Annotation {}
 
 /**
+ * @AnnotationTarget(AnnotatedElementType::METHOD)
+ */
+class AnnotateTestArray extends Annotation {}
+
+/**
  * @AnnotationTarget(AnnotatedElementType::PROPERTY)
  */
 class AnnotateTestAnnotationValues extends Annotation {
@@ -113,7 +118,7 @@ class AnnotateTest extends TestCase {
 		$this->assertTrue($this->reflect->getMethod('testAnnotationTypeTarget')->hasAnnotation('AnnotateTestMethodAnnotation'));
 		$this->assertTrue($this->reflect->getProperty('property')->hasAnnotation('AnnotateTestPropertyAnnotation'));
 
-		// 2. Make sure parser catches invalid target 
+		// 2. Make sure parser catches invalid target
 		$error = false;
 		try {
 			$this->reflect->getProperty('propertyForFailure')->hasAnnotation('AnnotateTestMethodAnnotation');
@@ -150,5 +155,21 @@ class AnnotateTest extends TestCase {
         $this->assertEquals(ConstValueHolder::FOO, $this->reflect->getProperty('propertyForAnnotationValuesConst')->getAnnotation('AnnotateTestAnnotationValues')->foo());
         $this->assertEquals(ConstValueHolder::BAR, $this->reflect->getProperty('propertyForAnnotationValuesConst')->getAnnotation('AnnotateTestAnnotationValues')->bar());
 	}
+
+    /**
+     * @AnnotateTestArray(value={1,2,3})
+     */
+    function testArrayNamedProps() {
+        $method = $this->reflect->getMethod('testArrayNamedProps');
+        $this->assertEquals(array(1,2,3), $method->getAnnotation('AnnotateTestArray')->value());
+    }
+
+    /**
+     * @AnnotateTestArray({1,2,3})
+     */
+    function testArrayConstructor() {
+        $method = $this->reflect->getMethod('testArrayConstructor');
+        $this->assertEquals(array(1,2,3), $method->getAnnotation('AnnotateTestArray')->value());
+    }
 
 }

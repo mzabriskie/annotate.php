@@ -257,10 +257,28 @@ class AnnotationParser {
 					// Don't process any further if annotation is a PHP Doc tag
 					if (in_array('@' . $name, self::$TAGS)) continue;
 
-					$tmp = array();
-					preg_match_all('/(\[)?(.*?)(?(1)\]|(?:, ?|$))/', $parts[2][0], $tmp);
+                    // Break parts up into individual args/props
+                    $t = array();
+                    $tmp = '';
+                    $arr = false;
+                    for ($i=strlen($parts[2][0]) - 1; $i>=0; $i--) {
+                        $chr = $parts[2][0][$i];
+                        if ($chr == '}') {
+                            $arr = true;
+                        } else if ($chr == '{') {
+                            $arr = false;
+                        } else if ($chr == ',' && !$arr) {
+                            $t[] = strrev($tmp);
+                            $tmp = '';
+                        } else {
+                            $tmp .= $chr;
+                        }
+                    }
+                    $t[] = strrev($tmp);
+                    $t = array_reverse($t);
 
-					foreach ($tmp[2] as $a) {
+                    // Assign args/props accordingly
+                    foreach ($t as $a) {
 						if (strlen(trim($a)) == 0) continue;
 
 						// Named properties
@@ -274,7 +292,8 @@ class AnnotationParser {
 						}
 					}
 
-					if (sizeof($args) > 0 && sizeof($props) > 0) {
+					// Don't allow mixing args and props
+                    if (sizeof($args) > 0 && sizeof($props) > 0) {
 						throw new AnnotationParseException('Annotation "' . $name . '" cannot use both named properties and constructor arguments');
 					}
 				}
