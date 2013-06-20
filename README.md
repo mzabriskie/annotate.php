@@ -183,7 +183,7 @@ This supplied annotation is used to specify the target of annotations. It takes 
 
 #### AnnotatedElementType
 
-You can specify a target to annotation classes and limit what element type they pertain to. The value of the <code>AnnotationTarget</code> is one of these values:
+You can specify a target to annotation classes and limit what element type they pertain to. The value of the <code>@AnnotationTarget</code> is one of these values:
 
 - ANNOTATION_TYPE - Annotation type declaration
 - CONSTRUCTOR - Constructor declaration
