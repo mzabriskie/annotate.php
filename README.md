@@ -1,4 +1,4 @@
-php-annotate
+annotate.php
 ============
 
 This project provides Java style annotations for PHP.
